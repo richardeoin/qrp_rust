@@ -15,9 +15,9 @@ static SYNC_VECTOR: [u8; 162] = [1,1,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,
                                  0,0];
 
 ///
-/// Encodes as callsign as a 28-bit value
+/// Encodes as callsign as a 28-bit value.
 /// Callee should verify callsign is valid, invalid chars will be replaced with
-/// zero or space as appropriate
+/// zero or space as appropriate.
 ///
 fn encode_callsign_with_offset(callsign: &str, offset: usize) -> u32 {
     let mut chars = callsign.chars();
@@ -120,6 +120,8 @@ pub fn encode_power(power_d_b_m: i32) -> u32 {
 ///
 /// Iterator WsprFrame, each element is a bit to be convoluted
 ///
+/// Returns 50 bits
+///
 struct WsprFrame {
     cs: u32,                    // encoded callsign
     ll: u32,                    // encoded locator
@@ -133,12 +135,12 @@ impl Iterator for WsprFrame {
         let index = self.index;
         self.index += 1;
 
-        if index < 28 {         // 28 bit callsign MSB-first
+        if index < 28 {         // 28 bits callsign MSB-first
             let cs = self.cs;
             self.cs <<= 1;
             Some(if (cs & (1<<27)) > 0 {1} else {0})
 
-        } else if index < 28+15 { // 15 bit locator LSB-first
+        } else if index < 28+15 { // 15 bits locator MSB-first
             let ll = self.ll;
             self.ll <<= 1;
             Some(if (ll & (1<<14)) > 0 {1} else {0})
@@ -146,7 +148,7 @@ impl Iterator for WsprFrame {
         } else if index < 28+15+1 { // 1 bit high
             Some(1)
 
-        } else if index < 28+15+1+6 { // 6 bits power
+        } else if index < 28+15+1+6 { // 6 bits power MSB-first
             let pp = self.pp;
             self.pp <<= 1;
             Some(if (pp & (1<<5)) > 0 {1} else {0})
@@ -167,9 +169,9 @@ fn wspr_frame(callsign: &str, locator: &str, power_d_b_m: i32) -> WsprFrame {
 ///
 /// Encodes a WSPR packet
 ///
-pub fn encode_wspr(callsign: &str, locator: &str, power_d_b: i32) -> [u8; 162] {
+pub fn encode_wspr(callsign: &str, locator: &str, power_d_b_m: i32) -> [u8; 162] {
 
-    let mut frame: WsprFrame = wspr_frame(callsign, locator, power_d_b); // Frame
+    let mut frame: WsprFrame = wspr_frame(callsign, locator, power_d_b_m); // Frame
     let mut coder: conv::ConvK32R12 = conv::ConvK32R12::new(); // Convolutional code
     let mut encoded: [u8; 162] = [0; 162]; // The output of the convolutional coder
     let mut result: [u8; 162] = [0; 162]; // The result is a 4-FSK sequence
