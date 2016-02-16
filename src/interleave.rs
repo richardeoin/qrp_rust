@@ -1,6 +1,6 @@
 //! Van-der-corput style interleaver for WSJT modes
 
-use math_util;
+use bithacks;
 
 ///
 /// Binary van-der-corput interleave sequence. Max 8-bits
@@ -15,7 +15,7 @@ impl Iterator for InterleaveSeq {
     fn next(&mut self) -> Option<u8> {
         loop {
             if self.index != 0xff {
-                let reversed: u8 = math_util::reverse_8(self.index);
+                let reversed: u8 = bithacks::reverse_8(self.index);
                 self.index += 1;
 
                 if reversed < self.maximum {

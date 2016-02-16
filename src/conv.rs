@@ -1,6 +1,6 @@
 //! Convolutional encoder for K=32, r=1/2
 
-use math_util;
+use bithacks;
 
 /// Layland Lushbaugh polynomials
 static LL_POLYS: [u32; 2] = [0xF2D05351, 0xE4613C47];
@@ -39,8 +39,8 @@ impl ConvK32R12 {
 
         // output
         if self.count > 0 {
-            Some((math_util::parity_32(self.register & LL_POLYS[0]) as u8,
-                  math_util::parity_32(self.register & LL_POLYS[1]) as u8))
+            Some((bithacks::parity_32(self.register & LL_POLYS[0]) as u8,
+                  bithacks::parity_32(self.register & LL_POLYS[1]) as u8))
         } else { None }
     }
 }

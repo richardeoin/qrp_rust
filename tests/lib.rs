@@ -6,8 +6,8 @@ mod tests {
 
     use qrp::wspr;
     use qrp::jt4;
-    use qrp::math_util;
-    use qrp::wsjt_interleave;
+    use qrp::bithacks;
+    use qrp::interleave;
 
     ///
     /// Check callsign encoding
@@ -79,19 +79,19 @@ mod tests {
     }
     #[test]
     fn check_parity() {
-        assert_eq!(math_util::parity_32(0xFF0100FF), 1);
-        assert_eq!(math_util::parity_32(0xFF00AAAA), 0);
-        assert_eq!(math_util::parity_32(0x43A8765F), naive_parity_32(0x43A8765F));
+        assert_eq!(bithacks::parity_32(0xFF0100FF), 1);
+        assert_eq!(bithacks::parity_32(0xFF00AAAA), 0);
+        assert_eq!(bithacks::parity_32(0x43A8765F), naive_parity_32(0x43A8765F));
     }
     ///
     /// Reversal
     ///
     #[test]
     fn check_reverse() {
-        assert_eq!(math_util::reverse_8(0x66), 0x66);
-        assert_eq!(math_util::reverse_8(0xE1), 0x87);
-        assert_eq!(math_util::reverse_8(0x55), 0xAA);
-        assert_eq!(math_util::reverse_8(13), 176);
+        assert_eq!(bithacks::reverse_8(0x66), 0x66);
+        assert_eq!(bithacks::reverse_8(0xE1), 0x87);
+        assert_eq!(bithacks::reverse_8(0x55), 0xAA);
+        assert_eq!(bithacks::reverse_8(13), 176);
     }
 
     ///
@@ -103,7 +103,7 @@ mod tests {
     ///
     #[test]
     fn check_interleaver() {
-        for (i,j) in wsjt_interleave::interleave_seq(4).enumerate() {
+        for (i,j) in interleave::interleave_seq(4).enumerate() {
             match i {
                 0 => assert_eq!(j, 0),
                 1 => assert_eq!(j, 2),

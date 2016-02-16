@@ -6,9 +6,9 @@
 /// see bithacks: https://graphics.stanford.edu/~seander/bithacks.html#ParityParallel
 ///
 /// ```
-// use math_util::parity_32;
+// use bithacks::parity_32;
 //
-// assert_eq!(math_util::parity_32(0xFF01), 1)
+// assert_eq!(bithacks::parity_32(0xFF01), 1)
 /// ```
 ///
 pub fn parity_32(vv: u32) -> u32 {

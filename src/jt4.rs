@@ -1,7 +1,7 @@
 //! JT4 for Rust
 
 use conv;
-use wsjt_interleave;
+use interleave;
 
 /// Sync Vector
 static SYNC_VECTOR: [u8; 207] = [0,0,0,0,1,1,0,0,0,1,1,0,1,1,0,0,
@@ -146,7 +146,7 @@ pub fn encode_jt4(plaintext: &str) -> [u8; 207] {
     result[0] = SYNC_VECTOR[0] + 2*0;
 
     // interleave and combine with sync vector
-    for (i,j) in wsjt_interleave::interleave_seq(206).enumerate() {
+    for (i,j) in interleave::interleave_seq(206).enumerate() {
         result[(j as usize)+1] = SYNC_VECTOR[(j as usize)+1] + 2*encoded[i]
     }
     result

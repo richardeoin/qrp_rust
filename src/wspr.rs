@@ -1,7 +1,7 @@
 //! WSPR for Rust
 
 use conv;
-use wsjt_interleave;
+use interleave;
 
 /// Sync Vector
 static SYNC_VECTOR: [u8; 162] = [1,1,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,
@@ -188,7 +188,7 @@ pub fn encode_wspr(callsign: &str, locator: &str, power_d_b_m: i32) -> [u8; 162]
     }
 
     // interleave and combine with sync vector
-    for (i,j) in wsjt_interleave::interleave_seq(162).enumerate() {
+    for (i,j) in interleave::interleave_seq(162).enumerate() {
         result[j as usize] = SYNC_VECTOR[j as usize] + 2*encoded[i]
     }
     result

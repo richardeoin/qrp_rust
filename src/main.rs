@@ -1,11 +1,11 @@
 //! main
 
 
-mod wsjt_interleave;
-mod math_util;
+mod interleave;
+mod bithacks;
 
 fn main() {
-    for (i,j) in wsjt_interleave::interleave_seq(162).enumerate() {
+    for (i,j) in interleave::interleave_seq(162).enumerate() {
         println!("i = {} and j = {}",i,j)
     }
 }
