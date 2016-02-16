@@ -2,5 +2,9 @@
 name = "qrp"
 version = "0.1.0"
 authors = ["Richard Meadows <richardeoin@gmail.com>"]
+readme = "README.md"
+description = """
+A library for encoding low-power digital radio modes
+"""
 
 [dependencies]
