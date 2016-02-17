@@ -11,46 +11,38 @@ pub fn check_locator(loc: &str, val: u32) {
     assert_eq!(l, val)
 }
 
+///
+/// Check callsign encoding
+///
+#[test]
+fn wspr_callsign() {
+    check_callsign("M0AAA", 259421940);
+}
+#[test]
+#[should_panic]
+fn wspr_callsign_should_panic() {
+    check_callsign("AB",    0); // too short
+    check_callsign("4XABC", 0); // maybe a real callsign, but not for wspr
+}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+///
+/// Check locator encoding
+///
+#[test]
+fn wspr_locator() {
+    check_locator("aa00", 32220);
+    check_locator("rr99", 179);
+}
+#[test]
+#[should_panic]
+fn wspr_locator_should_panic() {
+    check_locator("aaaa", 32220);
+}
 
-    use qrp::wspr;
-
-    ///
-    /// Check callsign encoding
-    ///
-    #[test]
-    fn wspr_callsign() {
-        check_callsign("M0AAA", 259421940);
-    }
-    #[test]
-    #[should_panic]
-    fn wspr_callsign_should_panic() {
-        check_callsign("AB",    0); // too short
-        check_callsign("4XABC", 0); // maybe a real callsign, but not for wspr
-    }
-
-    ///
-    /// Check locator encoding
-    ///
-    #[test]
-    fn wspr_locator() {
-        check_locator("aa00", 32220);
-        check_locator("rr99", 179);
-    }
-    #[test]
-    #[should_panic]
-    fn wspr_locator_should_panic() {
-        check_locator("aaaa", 32220);
-    }
-
-    ///
-    /// Overall encoding
-    ///
-    #[test]
-    fn wspr() {
-        let _ = wspr::encode_wspr("M0AAA", "AA00", 30);
-    }
+///
+/// Overall encoding
+///
+#[test]
+fn wspr() {
+    let _ = wspr::encode_wspr("M0AAA", "AA00", 30);
 }
