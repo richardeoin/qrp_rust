@@ -5,6 +5,48 @@ use qrp::jt4;
 ///
 /// JT4
 ///
+mod testvectors;
+#[test]
+fn jt4_testvectors() {
+    let n_symbols = 206;
+    let mut testvectors = testvectors::parse_wsjtx_testvectors("jt4", 206);
+
+    let mut it_went_wrong = false;
+
+    while let Some((message, vectors)) = testvectors.pop() { // for each testvector
+        let test_result: [u8; 207] = jt4::encode_jt4(&message); // encode it ourselves
+
+        let mut d_symbols: u32 = 0;
+
+        // very first symbol must be zero for sync
+        assert_eq!(test_result[0], 0);
+
+        for i in 0..206 {
+            if test_result[i+1] != vectors[i] { // symbol doesn't match!
+                println!("index {}: test {} -- reference {}", i,
+                         test_result[i+1], vectors[i]);
+                d_symbols += 1;
+            }
+        }
+
+        if d_symbols > 0 {
+            println!("");
+            println!("Message failed to pass: {}", message);
+            println!("(Total symbol errors {}/{})", d_symbols, n_symbols);
+            it_went_wrong = true;
+        }
+    };
+
+    if it_went_wrong {
+        println!("");
+        panic!("See failures above");
+    }
+}
+
+
+///
+/// JT4
+///
 #[test]
 fn jt4() {
     // Reference vector from Andy Talbot G4JNT
