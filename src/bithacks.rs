@@ -35,6 +35,14 @@ pub fn reverse_8(vv: u8) -> u8 {
     ((vc >> 4) & 0x0F) | ((vc & 0x0F) << 4)
 }
 
+///
+/// Gray code a u8
+///
+/// Not an official bithack :)
+///
+pub fn gray_code_8(vv: u8) -> u8 {
+    (vv >> 1) ^ vv
+}
 
 ///
 /// Unit tests
@@ -77,5 +85,14 @@ mod test {
         assert_eq!(reverse_8(0xE1), 0x87);
         assert_eq!(reverse_8(0x55), 0xAA);
         assert_eq!(reverse_8(13), 176);
+    }
+    ///
+    /// Gray code of 8-bit byte
+    ///
+    #[test]
+    fn bithacks_gray_code_8() {
+        assert_eq!(gray_code_8(7), 0b0100);
+        assert_eq!(gray_code_8(8), 0b1100);
+        assert_eq!(gray_code_8(9), 0b1101);
     }
 }
