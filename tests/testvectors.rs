@@ -115,7 +115,7 @@ pub fn parse_wsjtx_testvectors(modename: &str, channel_symbol_len: usize) -> Vec
                 // message and decoded string should be equal
                 // if not something has gone wrong in our test generator
                 assert_eq!(m.trim(), d.trim());
-                m.trim().to_string()
+                m.trim_right().to_string() // don't discard leading spaces from the message
             },
             (_, _) => continue
         };
