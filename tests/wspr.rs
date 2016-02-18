@@ -16,17 +16,21 @@ fn wspr_testvectors() {
     while let Some((message, vectors)) = testvectors.pop() { // for each testvector
         let mut msplit = message.split_whitespace();
 
-        match (msplit.next(), msplit.next(), msplit.next()) { // Attempt to parse as three parts
+        // Attempt to parse as three parts
+        match (msplit.next(), msplit.next(), msplit.next()) {
             (Some(callsign), Some(locator), Some(p)) => {
 
                 if let Ok(power) = p.parse::<i32>() { // Attempt to parse power
-                    let test_result: [u8; 162] = wspr::encode_wspr(&callsign, &locator, power); // encode it ourselves
+                    // encode it ourselves
+                    let test_result: [u8; 162] = wspr::encode_wspr(&callsign,
+                                                                   &locator, power);
 
                     let mut d_symbols: u32 = 0;
 
                     for i in 0..n_symbols {
                         if test_result[i] != vectors[i] { // symbol doesn't match!
-                            //println!("index {}: test {} -- reference {}", i, test_result[i], vectors[i]);
+                            //println!("index {}: test {} -- reference {}", i,
+                            //         test_result[i], vectors[i]);
                             d_symbols += 1;
                         }
                     }

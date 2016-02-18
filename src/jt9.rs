@@ -1,4 +1,4 @@
-//! JT4 for Rust
+//! JT9 for Rust
 
 use wsjtx;
 use conv;

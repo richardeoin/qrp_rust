@@ -38,7 +38,8 @@ fn read_testvector(modename: &str) -> String {
 ///
 /// parse testvector files for wspr modes
 ///
-pub fn parse_wspr_testvectors(modename: &str, channel_symbol_len: usize) -> Vec<(String, Vec<u8>)> {
+pub fn parse_wspr_testvectors(modename: &str, channel_symbol_len: usize) ->
+    Vec<(String, Vec<u8>)> {
 
     // get testvectors
     let testvectors = read_testvector(modename);
@@ -53,7 +54,7 @@ pub fn parse_wspr_testvectors(modename: &str, channel_symbol_len: usize) -> Vec<
         // get message and decode
         let message_vec: Vec<&str> = tv.split("\n").collect(); // first line
         let message_vec2: Vec<&str> = message_vec[0].rsplit("Message:").collect();
-        let decoded_vec: Vec<&str> = tv.rsplit("Decoded message:").collect(); // last line
+        let decoded_vec: Vec<&str> = tv.rsplit("Decoded message:").collect(); //last line
         let decoded_vec2: Vec<&str> = decoded_vec[0].split("ntype:").collect();
 
         let message = message_vec2[0].trim();
@@ -65,24 +66,25 @@ pub fn parse_wspr_testvectors(modename: &str, channel_symbol_len: usize) -> Vec<
             assert_eq!(message, decoded);
 
             // get channel symbols
-            let channel_symbols_vec: Vec<&str> = tv.rsplitn(2, "hannel symbols:").collect();
-            let channel_symbols_vec2: Vec<&str> = channel_symbols_vec[0].split("Decoded message:").collect();
-            let channel_symbols_iter = channel_symbols_vec2[0].split_whitespace();
+            let channel_syms_vec: Vec<&str> = tv.rsplitn(2, "hannel symbols:").collect();
+            let channel_syms_vec2: Vec<&str> = channel_syms_vec[0]
+                .split("Decoded message:").collect();
+            let channel_syms_iter = channel_syms_vec2[0].split_whitespace();
 
             // parse to u8s
-            let mut channel_symbols: Vec<u8> = vec![];
-            for cs in channel_symbols_iter.map(|x: &str| { x.parse::<u8>() }) {
+            let mut channel_syms: Vec<u8> = vec![];
+            for cs in channel_syms_iter.map(|x: &str| { x.parse::<u8>() }) {
                 match cs {
-                    Ok(c) => channel_symbols.push(c),
+                    Ok(c) => channel_syms.push(c),
                     Err(_) => continue // Skip elements that don't parse
                 }
             }
 
             // check the length is as expected
             // if not something has gone wrong in our test generator
-            assert_eq!(channel_symbol_len, channel_symbols.len());
+            assert_eq!(channel_symbol_len, channel_syms.len());
 
-            results.push((message.to_string(), channel_symbols));
+            results.push((message.to_string(), channel_syms));
         }
     };
 
@@ -93,7 +95,8 @@ pub fn parse_wspr_testvectors(modename: &str, channel_symbol_len: usize) -> Vec<
 ///
 /// parse testvector files for wsjtx modes
 ///
-pub fn parse_wsjtx_testvectors(modename: &str, channel_symbol_len: usize) -> Vec<(String, Vec<u8>)> {
+pub fn parse_wsjtx_testvectors(modename: &str, channel_symbol_len: usize) ->
+    Vec<(String, Vec<u8>)> {
 
     // get testvectors
     let testvectors = read_testvector(modename);
@@ -115,7 +118,8 @@ pub fn parse_wsjtx_testvectors(modename: &str, channel_symbol_len: usize) -> Vec
                 // message and decoded string should be equal
                 // if not something has gone wrong in our test generator
                 assert_eq!(m.trim(), d.trim());
-                m.trim_right().to_string() // don't discard leading spaces from the message
+                // don't discard leading spaces from the message
+                m.trim_right().to_string()
             },
             (_, _) => continue
         };
