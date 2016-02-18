@@ -33,3 +33,28 @@ impl Iterator for InterleaveSeq {
 pub fn interleave_seq(max: u8) -> InterleaveSeq {
     InterleaveSeq { index: 0, maximum: max }
 }
+
+
+///
+/// Unit tests
+///
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    ///
+    /// Interleaver
+    ///
+    #[test]
+    fn check_interleaver() {
+        for (i,j) in interleave_seq(4).enumerate() {
+            match i {
+                0 => assert_eq!(j, 0),
+                1 => assert_eq!(j, 2),
+                2 => assert_eq!(j, 1),
+                3 => assert_eq!(j, 3),
+                _ => assert_eq!(0, 0)
+            }
+        }
+    }
+}

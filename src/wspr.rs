@@ -193,3 +193,47 @@ pub fn encode_wspr(callsign: &str, locator: &str, power_d_b_m: i32) -> [u8; 162]
     }
     result
 }
+
+
+///
+/// Unit tests
+///
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    ///
+    /// Check callsign encoding
+    ///
+    fn check_callsign(cs: &str, val: u32) {
+        let c = encode_callsign(&cs.to_string());
+        assert_eq!(c, val)
+    }
+    #[test]
+    fn wspr_callsign() {
+        check_callsign("M0AAA", 259421940);
+    }
+    #[test]
+    #[should_panic]
+    fn wspr_callsign_should_panic() {
+        check_callsign("AB",    0); // too short
+        check_callsign("4XABC", 0); // maybe a real callsign, but not for wspr
+    }
+    ///
+    /// Check locator encoding
+    ///
+    fn check_locator(loc: &str, val: u32) {
+        let l = encode_locator(&loc.to_string());
+        assert_eq!(l, val)
+    }
+    #[test]
+    fn wspr_locator() {
+        check_locator("aa00", 32220);
+        check_locator("rr99", 179);
+    }
+    #[test]
+    #[should_panic]
+    fn wspr_locator_should_panic() {
+        check_locator("aaaa", 32220);
+    }
+}

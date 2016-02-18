@@ -44,3 +44,13 @@ impl ConvK32R12 {
         } else { None }
     }
 }
+
+
+///
+/// Unit tests
+///
+#[cfg(test)]
+mod test {
+    use super::*;
+
+}
