@@ -49,7 +49,7 @@ do
     LOCATOR=$L1$L2
 
     # Power
-    POWER=$(shuf -i 0-60 -n 1)      # 0-60 inclusive
+    POWER=$(shuf -e 0 3 7 10 13 17 20 23 27 30 33 37 40 43 47 50 53 57 60 -n 1)      # valid WSPR powers
 
 
     $WSPR_CODE "$CALLSIGN $LOCATOR $POWER" >> $WSPR_FILE
