@@ -72,7 +72,17 @@ pub fn encode_callsign(callsign: &str) -> u32 {
                 (_, _, _) => panic!("Callsign must have alpha/digit followed by digit")
             }
         },
-        (_,_,_) => panic!("Callsign must have at least 3 characters")
+        (Some(ch1), Some(ch2), _) => {
+
+            // Must be alpha/digit followed by digit
+            match (ch1, ch2) {
+                ('A'...'Z', '0'...'9') | ('0'...'9', '0'...'9') => {
+                    encode_callsign_with_offset(&ucallsign, 1) // 2nd is digit
+                },
+                (_, _) => panic!("2 character callsign must be alpha/digit followed by digit")
+            }
+        }
+        (_,_,_) => panic!("Callsign must have at least 2 characters")
     }
 }
 
