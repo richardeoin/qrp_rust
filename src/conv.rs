@@ -53,4 +53,31 @@ impl ConvK32R12 {
 mod test {
     use super::*;
 
+    #[test]
+    fn convk32r12() {
+        let mut coder: ConvK32R12 = ConvK32R12::new(); // Convolutional code
+
+        // check three iterations of the code
+        match coder.update(Some(0xA5)) {
+            Some((a, b)) => {
+                assert_eq!(a, 1);
+                assert_eq!(b, 0);
+            },
+            None => panic!("convolutional coder ended early")
+        }
+        match coder.update(Some(0x5A)) {
+            Some((a, b)) => {
+                assert_eq!(a, 1);
+                assert_eq!(b, 0);
+            },
+            None => panic!("convolutional coder ended early")
+        }
+        match coder.update(Some(0xFF)) {
+            Some((a, b)) => {
+                assert_eq!(a, 0);
+                assert_eq!(b, 0);
+            },
+            None => panic!("convolutional coder ended early")
+        }
+    }
 }
