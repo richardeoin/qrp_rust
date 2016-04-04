@@ -3,6 +3,7 @@
 ## WSPR
 
 http://g4jnt.com/Coding/WSPR_Coding_Process.pdf
+http://www.g4ilo.com/wspr.html
 
 - _Data bits_: 50
 - _Convoluted bits_: 50+31 * 2 = 81*2 = 162
@@ -23,6 +24,11 @@ First transmitted bit is a zero for sync
 
 ## JT9
 
+https://sm7vrz.wordpress.com/jt9-english/
+
+http://www.informationtechnologies.com.au/files/HAB%20Presentation.pdf lt-spite
+
+
 - _Data bits_: 72
 - _Convoluted bits_: 72+31 * 2 = 103*2 = 206
 - _Tranmitted symbols_: 206+1/3 + 16 = 69 + 16 = 85
@@ -30,6 +36,7 @@ First transmitted bit is a zero for sync
 ## JT65
 
 http://www.arrl.org/files/file/18JT65.pdf
+http://www.packetradio.com/pdfzips/jt65-hf-setup.pdf
 
 - _Data bits_: 72
 - _Encoded symbols_: 63
