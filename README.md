@@ -6,6 +6,8 @@ A library for encoding low-power digital radio modes, written in rust.
 
 * WSPR
 * JT4
+* JT9
+* JT65
 
 ### Implementation details
 
